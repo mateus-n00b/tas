@@ -19,7 +19,7 @@
 CONT=1
 yn=' '
 
-/usr/local/bin/term_stats &
+/usr/bin/term_stats &
 
 echo -e "\tXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
 echo -e "\t\tWELCOME TO THE TERMINAL AUTHENTICATION SYSTEM (TAS) \n"
@@ -41,7 +41,7 @@ fi
 
 if [ "$yn" = 'n' ] 
 then
-    /usr/local/bin/create_term_account
+    /usr/bin/create_term_account
 fi
 
 SALT=$(grep $(whoami) /etc/term_account |cut -d: -f1)
