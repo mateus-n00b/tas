@@ -23,6 +23,6 @@ var=$(cat /tmp/status)
 if [  "$var" != 1 ] 
   then	
 	echo "Authentication fail. BYE!!!" 	
-	killall "gnome-terminal"
+	killall "gnome-terminal-server" || killall "gnome-terminal"
 fi
 rm /tmp/status 2> /dev/null 
