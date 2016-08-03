@@ -45,11 +45,11 @@ case "$1" in
 		chmod 606 /etc/term_pass
 		chmod 606 /etc/term_account
 		
-	echo "[+] Alocating programs /usr/local/bin/term_stats and /usr/local/bin/create_term_account"	 	 
-		 mv term_stats /usr/local/bin/term_stats 
-		 chmod 755 /usr/local/bin/term_stats
-		 mv create_term_account /usr/local/bin/
-		 chmod 755 /usr/local/bin/create_term_account	 
+	echo "[+] Alocating programs /usr/bin/term_stats and /usr/bin/create_term_account"	 	 
+		 mv term_stats /usr/bin/term_stats 
+		 chmod 755 /usr/bin/term_stats
+		 mv create_term_account /usr/bin/
+		 chmod 755 /usr/bin/create_term_account	 
 		 
 	echo "[+] Finishing installation..."		
 			chmod 741 "$(pwd)/TAS.sh"
@@ -77,8 +77,8 @@ case "$1" in
 		exit 2
 	fi
 	
-	mv /usr/local/bin/term_stats . &> /dev/null
-	mv /usr/local/bin/create_term_account . &> /dev/null
+	mv /usr/bin/term_stats . &> /dev/null
+	mv /usr/bin/create_term_account . &> /dev/null
 	grep -v "bash \"$(pwd)/TAS.sh\"" /home/"$name"/.bashrc > /tmp/out 2> /dev/null
 	mv /tmp/out /home/"$name"/.bashrc
 	rm /etc/term_pass &> /dev/null
