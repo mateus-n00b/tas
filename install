@@ -1,0 +1,106 @@
+#!/bin/bash
+# install Installer do programa TAS (Terminal Authentication System), programa que realiza
+# a autenticacao para acesso ao terminal.s
+#  Dever ser instalado como root ou com o comando sudo ./install
+#
+# Mateus Sousa 26-05-2016
+#
+# Versao 1.0
+#
+# Mateus Sousa 31-07-2016
+# 
+# Versao 1.1 
+#
+# Foi adicionado o suporte a opcoes como instalar, remover, versao e ajuda.
+# 
+# Licenca GPL
+###########################################################################################
+
+case "$1" in 
+"-i") 
+	
+	if [ $(id -u) -ne 0 ] 
+	then
+		echo "You should run this program with a root account! Exiting..."
+	exit 2
+	fi
+
+	read -p "Isert your username: " name
+	pwd > /opt/path
+
+	if [ -z "$name" ] 
+	then
+		echo "Username invalid! Exiting"
+		exit 2
+	elif ! grep -i "$name" /etc/passwd &> /dev/null
+	then
+		echo "User not found! Exiting"
+		exit 2
+	fi
+
+	echo "[+] Creating /etc/term_account..."
+		touch /etc/term_account
+	echo "[+] Creating /etc/term_pass..."
+		touch /etc/term_pass
+		chmod 606 /etc/term_pass
+		chmod 606 /etc/term_account
+		
+	echo "[+] Alocating programs /usr/local/bin/term_stats and /usr/local/bin/create_term_account"	 	 
+		 mv term_stats /usr/local/bin/term_stats 
+		 chmod 755 /usr/local/bin/term_stats
+		 mv create_term_account /usr/local/bin/
+		 chmod 755 /usr/local/bin/create_term_account	 
+		 
+	echo "[+] Finishing installation..."		
+			chmod 741 "$(pwd)/TAS.sh"
+			chown $user.$user "$(pwd)/TAS.sh"
+			echo "bash \"$(pwd)/TAS.sh\"" >> /home/"$name"/.bashrc		
+	echo "[+] All done! Now restart your terminal." 
+;;
+
+"-r")
+	if [ $(id -u) -ne 0 ] 
+	then
+		echo "You should run this program with a root account! Exiting..."
+	exit 2
+	fi
+		
+	read -p "Isert your username: " name	
+
+	if [ -z "$name" ] 
+	then
+		echo "Username invalid! Exiting"
+		exit 2
+	elif ! grep -i "$name" /etc/passwd &> /dev/null
+	then
+		echo "User not found! Exiting"
+		exit 2
+	fi
+	
+	mv /usr/local/bin/term_stats . &> /dev/null
+	mv /usr/local/bin/create_term_account . &> /dev/null
+	grep -v "bash \"$(pwd)/TAS.sh\"" /home/"$name"/.bashrc > /tmp/out 2> /dev/null
+	mv /tmp/out /home/"$name"/.bashrc
+	rm /etc/term_pass &> /dev/null
+	rm /etc/term_account &> /dev/null
+	
+	[ $? -eq 0 ] && echo "[+] Program removed!" || echo "[-] Error to remove!"
+;;
+"-h")
+	echo -e "Usage: $0 <option>\n\
+	OPTIONS: \n \
+	-h\t display this message e exit\n\
+	-i\t install the program (default)\n\
+	-r\t remove the program\n\
+	-v\t show the version\n"
+;;
+"-v")	echo -e "$(egrep -o 'Versao [0-9]\.*' TAS.sh | tail -1) by Mateus Sousa\n"
+;;
+*) echo -e "Usage: $0 <option>\n\
+	OPTIONS: \n \
+	-h\t display this message e exit\n\
+	-i\t install the program (default)\n\
+	-r\t remove the program\n\
+	-v\t show the version\n"
+;;
+esac
