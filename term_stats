@@ -1,0 +1,28 @@
+#!/bin/bash
+# Programa que impede que usuario interrompa a autenticacao 
+# no TAS
+# 
+# Mateus 26-05-2016
+#
+# v1 Caso o usuario digite ^C, o term_stats bloqueara o terminal.
+#
+#################################################################
+path=$(cat /opt/path)
+
+while :
+do
+    ps -aux > /tmp/alive  
+    if grep "0:00 bash $path/TAS.sh" /tmp/alive &> /dev/null
+    then
+	    sleep 1
+    else
+		break
+    fi
+done
+var=$(cat /tmp/status)
+if [  "$var" != 1 ] 
+  then	
+	echo "Authentication fail. BYE!!!" 	
+	killall "gnome-terminal-server"
+fi
+rm /tmp/status 2> /dev/null 

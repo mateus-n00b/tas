@@ -1,0 +1,35 @@
+#!/bin/bash
+if grep $(whoami) /etc/term_account > /dev/null 2> /dev/null 
+then 
+     echo "You allready have a registred account. Exiting!"
+     exit 2
+else
+    KEY=0
+    while [ $KEY = 0 ] 
+    do
+	stty -echo
+	echo " "
+    	read -p "Choose a terminal password: " passw     
+        if [ -z "$passw" ] 
+    	then
+	    echo "This field can not be void!"
+	else
+	    echo " "
+            read -p "Repeat the password: " repeat
+	    if [ "$passw" != "$repeat" ] 
+	    then     	
+		echo " " 
+		echo "Password don't match!"
+	    else 
+		SALT=$RANDOM
+		foo=$(perl -e "print crypt($passw,$SALT)")
+		echo "$foo" >> /etc/term_pass
+                echo "$SALT:$(whoami)" >> /etc/term_account
+		echo " " 
+		echo -e "Keep your password in mind!\n"
+		stty echo
+		KEY=1
+	      fi
+	    fi
+       done		
+fi
