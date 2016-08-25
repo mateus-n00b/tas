@@ -89,7 +89,7 @@ case "$1" in
 "-h")
 	echo -e "Usage: $0 <option>\n\
 	OPTIONS: \n \
-	-h\t display this message e exit\n\
+	-h\t display this message and exit\n\
 	-i\t install the program (default)\n\
 	-r\t remove the program\n\
 	-v\t show the version\n"
@@ -98,7 +98,7 @@ case "$1" in
 ;;
 *) echo -e "Usage: $0 <option>\n\
 	OPTIONS: \n \
-	-h\t display this message e exit\n\
+	-h\t display this message and exit\n\
 	-i\t install the program (default)\n\
 	-r\t remove the program\n\
 	-v\t show the version\n"
