@@ -1,7 +1,7 @@
 #!/bin/bash
 if grep $(whoami) /etc/term_account > /dev/null 2> /dev/null 
 then 
-     echo "You allready have a registred account. Exiting!"
+     echo "You already have a registred account! Exiting..."
      exit 2
 else
     KEY=0
